@@ -1,10 +1,10 @@
-import {Grid, Typography} from '@mui/material'
+import { Grid, Typography, Pagination, Stack } from '@mui/material'
 import UseNews from '../hooks/UseNews'
 import News from './News'
 
 const NewsList = () => {
-  const {news: newsList} = UseNews()
-  console.log(newsList)
+  const { news: newsList, totalNews, handleChangePage, page } = UseNews()
+  const totalPages = Math.ceil(totalNews / 20)
 
   return (
     <>
@@ -19,12 +19,30 @@ const NewsList = () => {
 
       <Grid container spacing={2}>
         {newsList.map(elem => (
-          <News 
+          <News
             key={elem.url}
             news={elem}
           />
         ))}
       </Grid>
+
+      <Stack
+        spacing={2}
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        sx={{
+          marginY: 5
+        }}
+      >
+        <Pagination
+          count={totalPages}
+          color="primary"
+          onChange={handleChangePage}
+          page={page}
+        />
+      </Stack>
+
     </>
   )
 }
